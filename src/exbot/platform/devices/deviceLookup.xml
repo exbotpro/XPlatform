@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeviceList><Device
+		id="b1ac:f000" classpath="exbot.example.camera.Camera"></Device>
+	<Device id="0781:557d" classpath="exbot.example.wheel.Wheel"></Device>
+	<Device id="driving" classpath="exbot.example.driving.Driving"></Device>
+</DeviceList>
