@@ -2,10 +2,10 @@ package exbot.platform.common.app.state;
 
 import exbot.platform.common.app.state.exception.InitException;
 
-public class TerminateState extends State{
+public class TerminateState extends AppState{
 
-	public TerminateState(String id) {
-		super(id);
+	public TerminateState(String id, String type) {
+		super(id, type);
 	}
 
 	@Override
@@ -25,7 +25,17 @@ public class TerminateState extends State{
 
 	@Override
 	public void terminateApp() {
-		System.out.println("Terminate State");
+		System.out.println("Terminate State: " + type);
+		
 	}
 
+	@Override
+	public void unpluggedApp() {
+		
+	}
+
+	@Override
+	public void suspendApp() {
+		
+	}
 }

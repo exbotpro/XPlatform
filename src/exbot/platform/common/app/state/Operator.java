@@ -3,16 +3,15 @@ package exbot.platform.common.app.state;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import exbot.platform.common.app.state.exception.NotFoundOperatorException;
 import exbot.platform.common.data.DataBuffer;
 import exbot.platform.common.data.DataContainer;
 import exbot.platform.common.data.Publisher;
-import exbot.platform.devices.ThreadPoolForOperators;
 
 
-public abstract class Operator implements Runnable{
+public abstract class Operator {
 	
 	protected String ID;
+	protected String type;
 	protected int interval;
 	protected boolean running = true;
 	protected ArrayList<String> subscribeFrom = new ArrayList<String>();
@@ -23,8 +22,9 @@ public abstract class Operator implements Runnable{
 	 * This constructor is to set the ID of your application 
 	 * @param id: USB-ID (e.g., productID: vendorID)
 	 */
-	public Operator(String id, int interval) {
+	public Operator(String id, String type, int interval) {
 		this.ID = id;
+		this.type = type;
 		this.interval = interval;
 		this.publisher = new Publisher(id);
 	}
@@ -92,8 +92,12 @@ public abstract class Operator implements Runnable{
 		return recievedData;
 	}
 
-	public void stop(boolean running) {
-		this.running = running;
+	public void stop() {
+		this.running = false;
+	}
+	
+	public void start() {
+		this.running = true;
 	}
 	
 	public Publisher getPublisher() {

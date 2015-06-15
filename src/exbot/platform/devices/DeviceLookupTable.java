@@ -44,6 +44,11 @@ public class DeviceLookupTable {
 		return DeviceLoader.load(id, desc);
 	}
 	
+	public DeviceDescriptor getDeviceDescriptor(String id){
+		DeviceDescriptor desc = xmlHanlder.getOperatorDescriptorBy(nodeName, "id", id);
+		return desc;
+	}
+	
 	
 	public void initialCheckPath(){
 		try{

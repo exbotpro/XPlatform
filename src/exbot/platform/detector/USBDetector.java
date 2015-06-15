@@ -9,6 +9,9 @@ import javax.usb.event.UsbServicesEvent;
 import javax.usb.event.UsbServicesListener;
 
 import exbot.platform.common.app.AppContext;
+import exbot.platform.devices.DeviceDescriptor;
+import exbot.platform.devices.DeviceLookupTable;
+import exbot.platform.devices.OperatorPool;
 
 public class USBDetector extends Detector{
 	Hashtable<String, String> busIdList = new Hashtable<String, String>();
@@ -27,8 +30,6 @@ public class USBDetector extends Detector{
 		busIdList.put("8087:8000", "8087:8000");
 		busIdList.put("0557:8021", "0557:8021");
 		busIdList.put("045e:00db", "045e:00db");
-		
-		
 //		
 		
 	}
@@ -41,14 +42,21 @@ public class USBDetector extends Detector{
 						//create appContext and run it!
 						String id = getID(arg0.getUsbDevice().toString());
 						if(isDevice(id)){
+							DeviceDescriptor desc = DeviceLookupTable.getLookupTable().getDeviceDescriptor(id);
 							System.out.println(id + " Device has been detected.");
-							new AppContext(id).run();
+							AppContext context = AppContext.getContext(id, desc.getType());
+							(new Thread(context)).start();
 						}
 					}
 					
 					public void usbDeviceDetached(UsbServicesEvent arg0) {
 						String id = getID(arg0.getUsbDevice().toString());
+						DeviceDescriptor desc = DeviceLookupTable.getLookupTable().getDeviceDescriptor(id);
 						System.out.println("unplugged device: "+id);
+						OperatorPool.getLookupTable().getOperator(id).stop();
+						
+						AppContext context = AppContext.getContext(id, desc.getType());
+						context.changeToUnpluggedState();
 					}
 					
 		        });

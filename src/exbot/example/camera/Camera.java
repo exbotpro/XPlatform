@@ -8,8 +8,8 @@ import exbot.platform.common.data.DataContainer;
 
 public class Camera extends Operator{
 
-	public Camera(String id){
-		super(id, 1000);
+	public Camera(String id, String type){
+		super(id, type, 1000);
 	}
 	
 	@Override

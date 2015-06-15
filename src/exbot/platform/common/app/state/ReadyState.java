@@ -2,10 +2,10 @@ package exbot.platform.common.app.state;
 
 import exbot.platform.common.app.state.exception.InitException;
 
-public class ReadyState extends State{
+public class ReadyState extends AppState{
 	private boolean findAll = false;
-	public ReadyState(String id) {
-		super(id);
+	public ReadyState(String id, String type) {
+		super(id, type);
 	}
 	
 	@Override
@@ -15,7 +15,7 @@ public class ReadyState extends State{
 
 	@Override
 	public boolean waitPRDApp() {
-		System.out.println("Ready State");
+		System.out.println("Ready State: " + type);
 		if(super.publisherList.size() ==0) findAll = true;
 		
 		while(!findAll){
@@ -41,5 +41,14 @@ public class ReadyState extends State{
 		
 	}
 
+	@Override
+	public void unpluggedApp() {
+		
+	}
+
+	@Override
+	public void suspendApp() {
+		
+	}
 
 }

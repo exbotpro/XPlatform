@@ -3,17 +3,17 @@ package exbot.platform.common.app.state;
 import exbot.platform.common.app.state.exception.InitException;
 import exbot.platform.devices.DeviceLookupTable;
 
-public class InitializedState extends State {
+public class InitializedState extends AppState {
 
 	
-	public InitializedState(String id) {
-		super(id);
-		System.out.println("Init State");
+	public InitializedState(String id, String type) {
+		super(id, type);
+		System.out.println("Init State: " + type);
 	}
 
-	public InitializedState(String id, Operator op) {
-		super(id, op);
-		System.out.println("Init State");
+	public InitializedState(String id, Operator op, String type) {
+		super(id, op, type);
+		System.out.println("Init State: " + type);
 	}
 	
 	@Override
@@ -44,6 +44,16 @@ public class InitializedState extends State {
 
 	@Override
 	public void terminateApp() {
+		
+	}
+
+	@Override
+	public void unpluggedApp() {
+		
+	}
+
+	@Override
+	public void suspendApp() {
 		
 	}
 

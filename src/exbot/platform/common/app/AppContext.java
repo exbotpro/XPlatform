@@ -6,46 +6,91 @@ import exbot.platform.common.app.state.InitializedState;
 import exbot.platform.common.app.state.Operator;
 import exbot.platform.common.app.state.ReadyState;
 import exbot.platform.common.app.state.RunningState;
-import exbot.platform.common.app.state.State;
+import exbot.platform.common.app.state.AppState;
 import exbot.platform.common.app.state.TerminateState;
 import exbot.platform.common.app.state.UnpluggedState;
 import exbot.platform.common.app.state.exception.InitException;
 import exbot.platform.common.app.state.exception.RunningException;
+import exbot.platform.devices.ThreadPoolForAppContext;
 
-public class AppContext implements Runnable{
+public class AppContext extends Thread{
 	
-	private State initState;
-	private State readyState;
-	private State runningState;
-	private State terminateState;
-	private State unpluggedState;
+	private AppState initState;
+	private AppState readyState;
+	private AppState runningState;
+	private AppState terminateState;
+	private AppState unpluggedState;
 	
-	private State state;
+	private AppState state;
 	private String id;
 	private boolean running = true;
 	private Operator op;
 	private ArrayList<String> publisherList;
 	
-	public AppContext(String id){
+	private AppContext(String id, String type){
 		this.id = id;
-		initState = new InitializedState(id);
-		readyState = new ReadyState(id);
-		runningState = new RunningState(id);
-		terminateState = new TerminateState(id);
-		unpluggedState = new UnpluggedState(id);
+		initState = new InitializedState(id, type);
+		readyState = new ReadyState(id, type);
+		runningState = new RunningState(id, type);
+		terminateState = new TerminateState(id, type);
+		unpluggedState = new UnpluggedState(id, type);
+		
 		
 		this.state = this.initState;
 	}
 	
-	public AppContext(String id, Operator op){
+	private AppContext(String id, String type, Operator op){
 		this.id = id;
-		initState = new InitializedState(id, op);
-		readyState = new ReadyState(id);
-		runningState = new RunningState(id);
-		terminateState = new TerminateState(id);
-		unpluggedState = new UnpluggedState(id);
+		initState = new InitializedState(id, op, type);
+		readyState = new ReadyState(id, type);
+		runningState = new RunningState(id, type);
+		terminateState = new TerminateState(id, type);
+		unpluggedState = new UnpluggedState(id, type);
 		
 		this.state = this.initState;
+	}
+	
+	public static AppContext getContext(String id, String type, Operator op){
+		AppContext context = ThreadPoolForAppContext.getLookupTable().getThread(id);
+		
+		if(context==null)
+		{
+			AppContext newContext = new AppContext(id, type, op);
+			ThreadPoolForAppContext.getLookupTable().putThread(id, newContext); 
+			return newContext;
+		}
+		
+		return context;
+	}
+	
+	public static AppContext getContext(String id, String type){
+		AppContext context = ThreadPoolForAppContext.getLookupTable().getThread(id);
+		
+		if(context==null)
+		{
+			AppContext newContext = new AppContext(id, type);
+			ThreadPoolForAppContext.getLookupTable().putThread(id, newContext); 
+			return newContext;
+		}
+		
+		return context;
+		
+	}
+	
+	public String getAppId() {
+		return id;
+	}
+
+	public void changeToUnpluggedState() {
+		this.state = this.unpluggedState;
+	}
+	
+	public void changeToReadyState() {
+		this.state = this.readyState;
+	}
+
+	public void appStop(){
+		this.running = false;
 	}
 	
 	@Override
@@ -77,12 +122,10 @@ public class AppContext implements Runnable{
 			}
 			
 		}else if(this.state instanceof RunningState){
-
-//			System.out.println("Running State");
 			try
 			{
 				this.state.runApp(op);
-			
+				
 			}catch(RunningException e){
 				String exceptionType = e.getExceptionType();
 				if(exceptionType.equals(""))
@@ -95,11 +138,16 @@ public class AppContext implements Runnable{
 				{
 					this.state = this.unpluggedState;
 				}
-				
 			}
+		}else if(this.state instanceof UnpluggedState){
+			this.state.unpluggedApp();
 			
 		}else if(this.state instanceof TerminateState){
 			this.state.terminateApp();
 		}
+	}
+
+	public void appStart() {
+		this.running = true;
 	}
 }

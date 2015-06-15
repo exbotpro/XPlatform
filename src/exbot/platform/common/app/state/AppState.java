@@ -4,16 +4,19 @@ import java.util.ArrayList;
 
 import exbot.platform.common.app.state.exception.InitException;
 import exbot.platform.common.app.state.exception.RunningException;
-import exbot.platform.devices.ThreadPoolForOperators;
+import exbot.platform.devices.OperatorPool;
 
-public abstract class State {
+public abstract class AppState {
 	protected String id;
 	protected ArrayList<String> publisherList;
 	protected Operator op;
+	protected String type;
 	
-	protected State(String id){
+	protected AppState(String id, String type){
 		this.id = id;
+		this.type = type;
 	}
+	
 	
 	public Operator getOp() {
 		return op;
@@ -25,9 +28,10 @@ public abstract class State {
 	}
 
 
-	public State(String id, Operator op) {
+	public AppState(String id, Operator op, String type) {
 		this.id = id;
 		this.op = op;
+		this.type = type;
 		publisherList = op.getSubscribeFrom();
 	}
 
@@ -49,16 +53,18 @@ public abstract class State {
 	public abstract boolean waitPRDApp();
 	public abstract void runApp(Operator operator) throws RunningException;
 	public abstract void terminateApp();
+	public abstract void unpluggedApp();
+	public abstract void suspendApp();
 	
 	protected void putDevice(String id, Operator op){
-		ThreadPoolForOperators.getLookupTable().putThread(id, op);
+		OperatorPool.getLookupTable().putOperator(id, op);
 	}
 	
 	protected Operator getDevice(String id){
-		return ThreadPoolForOperators.getLookupTable().getThread(id);
+		return OperatorPool.getLookupTable().getOperator(id);
 	}
 	
 	protected void removeDevice(String id){
-		ThreadPoolForOperators.getLookupTable().removeThread(id);
+		OperatorPool.getLookupTable().removeOperator(id);
 	}
 }

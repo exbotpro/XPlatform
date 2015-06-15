@@ -8,8 +8,8 @@ import exbot.platform.common.data.DataContainer;
 
 public class Wheel extends Operator {
 
-	public Wheel(String id) {
-		super(id, 1000);
+	public Wheel(String id, String type) {
+		super(id, type, 1000);
 		super.setSubscribeFrom(this.getPublishingDevice());
 	}
 	

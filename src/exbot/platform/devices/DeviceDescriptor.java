@@ -6,15 +6,27 @@ public class DeviceDescriptor {
 	private String name;
 	private String classpath;
 	private String jarpath;
+	private String type;
 	
-	
-	public DeviceDescriptor(String id, String name, String classpath, String jarpath) {
+	public DeviceDescriptor(String id, String name, String classpath, String jarpath, String type) {
 		this.id = id;
 		this.name = name;
 		this.classpath = classpath;
 		this.jarpath = jarpath;
+		this.type = type;
 	}
 	
+	
+	public final String getType() {
+		return type;
+	}
+
+
+	public final void setType(String type) {
+		this.type = type;
+	}
+
+
 	public String getId() {
 		return id;
 	}

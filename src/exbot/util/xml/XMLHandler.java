@@ -116,8 +116,9 @@ public class XMLHandler {
 		String name = ((Element)node).getAttribute("name");
 		String classpath = ((Element)node).getAttribute("classpath");
 		String jarpath = ((Element)node).getAttribute("jarpath");
+		String type = ((Element)node).getAttribute("type");
 		
-		return new DeviceDescriptor(attValue, name, classpath, jarpath);
+		return new DeviceDescriptor(attValue, name, classpath, jarpath, type);
 	}
 	
 	

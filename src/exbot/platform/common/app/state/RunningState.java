@@ -3,11 +3,11 @@ package exbot.platform.common.app.state;
 import exbot.platform.common.app.state.exception.InitException;
 import exbot.platform.common.app.state.exception.RunningException;
 
-public class RunningState extends State{
+public class RunningState extends AppState{
 
 	private Operator operator;
-	public RunningState(String id) {
-		super(id);
+	public RunningState(String id, String type) {
+		super(id, type);
 	}
 
 	@Override
@@ -22,18 +22,30 @@ public class RunningState extends State{
 
 	@Override
 	public void runApp(Operator operator) throws RunningException {
+		System.out.println("Running State: " + type);
 		this.operator = operator;
 		if(this.operator == null)
 		{
 			throw new RunningException("");
 		}
-		
-		new Thread(operator).start();
+		operator.run();
+		//new Thread(operator).start();
 		
 	}
 
 	@Override
 	public void terminateApp() {
+		
+	}
+	
+	@Override
+	public void unpluggedApp() {
+		
+	}
+	
+
+	@Override
+	public void suspendApp() {
 		
 	}
 

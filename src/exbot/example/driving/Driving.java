@@ -9,14 +9,14 @@ import exbot.platform.common.data.DataContainer;
 
 public class Driving extends Operator{
 
-	public Driving(String id, int interval) {
-		super(id, interval);
+	public Driving(String id, String type, int interval) {
+		super(id, type, interval);
 		super.setSubscribeFrom(this.getPublishingDevice());
 	}
 	
 	private ArrayList<String> getPublishingDevice(){
 		ArrayList<String> publishingDevice = new ArrayList<String>();
-		publishingDevice.add("b1ac:f000");
+		publishingDevice.add("046d:082d");
 		return publishingDevice;
 	}
 	
@@ -29,7 +29,6 @@ public class Driving extends Operator{
 			ArrayList<DetectedObject> objs = (ArrayList<DetectedObject>)dc.getDataList();
 			for(DetectedObject o: objs) message += o.getX() + "," + o.getY();
 		}
-		
 		
 		DataContainer data = new MovingInfoContainer(super.ID);
 		MovingInfo mv = getObjectLocation();
