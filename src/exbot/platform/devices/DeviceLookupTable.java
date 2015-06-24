@@ -41,7 +41,8 @@ public class DeviceLookupTable {
 	
 	public Operator getDeviceBy(String id){
 		DeviceDescriptor desc = xmlHanlder.getOperatorDescriptorBy(nodeName, "id", id);
-		return DeviceLoader.load(id, desc);
+		Operator op = DeviceLoader.monitor("dapp" ,id, desc);
+		return op;
 	}
 	
 	public DeviceDescriptor getDeviceDescriptor(String id){
@@ -49,6 +50,9 @@ public class DeviceLookupTable {
 		return desc;
 	}
 	
+	public ArrayList<DeviceDescriptor> getControllerDapps(){
+		return xmlHanlder.getOperatorControllerDescriptors();
+	}
 	
 	public void initialCheckPath(){
 		try{

@@ -30,11 +30,10 @@ public class USBDetector extends Detector{
 		busIdList.put("8087:8000", "8087:8000");
 		busIdList.put("0557:8021", "0557:8021");
 		busIdList.put("045e:00db", "045e:00db");
-//		
-		
 	}
+	
+	
 	public void watch() {
-		 
 		 try {
 				UsbServices services = UsbHostManager.getUsbServices();
 				services.addUsbServicesListener(new UsbServicesListener(){

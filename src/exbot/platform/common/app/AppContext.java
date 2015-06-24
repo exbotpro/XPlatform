@@ -101,9 +101,11 @@ public class AppContext extends Thread{
 		}
 	}
 	
-	private void monitorState(){		
+	private void monitorState(){	
+		
 		if(this.state instanceof InitializedState){
 			try{
+				
 				op = this.state.getOp();
 				if(op == null) op = this.state.initApp();
 				this.publisherList = this.state.getPublisherList();

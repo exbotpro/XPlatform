@@ -117,9 +117,32 @@ public class XMLHandler {
 		String classpath = ((Element)node).getAttribute("classpath");
 		String jarpath = ((Element)node).getAttribute("jarpath");
 		String type = ((Element)node).getAttribute("type");
+		String jarName = ((Element)node).getAttribute("jar");
 		
-		return new DeviceDescriptor(attValue, name, classpath, jarpath, type);
+		return new DeviceDescriptor(attValue, name, classpath, jarpath, type, jarName);
 	}
+	
+	
+	public ArrayList<DeviceDescriptor> getOperatorControllerDescriptors(){
+		
+		ArrayList<Node> nodes = this.getNodesByAttribute("Device", "jar");
+		ArrayList<DeviceDescriptor> descriptors = new ArrayList<DeviceDescriptor>();
+		
+		for(Node node: nodes){
+			String id = ((Element)node).getAttribute("id");
+			String name = ((Element)node).getAttribute("name");
+			String classpath = ((Element)node).getAttribute("classpath");
+			String jarpath = ((Element)node).getAttribute("jarpath");
+			String type = ((Element)node).getAttribute("type");
+			String jarName = ((Element)node).getAttribute("jar");
+			
+			descriptors.add(new DeviceDescriptor(id, name, classpath, jarpath, type, jarName));
+		}
+		
+		
+		return descriptors;
+	}
+	
 	
 	
 	private Node getNodeByAttribute(String nodeName, String attName, String attValue){
@@ -131,6 +154,19 @@ public class XMLHandler {
 		}
 		
 		return null;
+	}
+	
+	private ArrayList<Node> getNodesByAttribute(String nodeName, String attName){
+		NodeList list = doc.getElementsByTagName(nodeName);
+		ArrayList<Node> controller = new ArrayList<Node>();
+		
+		for(int i = 0 ; i < list.getLength() ; i++)
+		{
+			if(!((Element)list.item(i)).getAttribute(attName).equals(""))
+				controller.add(list.item(i));
+		}
+		
+		return controller;
 	}
 	
 	public void removeNodeByAttribute(String nodeName, String attName, String attValue) {
