@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DeviceList>
+	<Device id="046d:082d" classpath="dapp.camera.Camera" type="Camera"
+		jar="">
+	</Device>
+	<Device id="0781:557d" classpath="xplatform.example.driving.Driving"
+		type="Wheel" jar="">
+	</Device>
+	<Device id="driving" classpath="dapp.driving.Driving"
+		type="Driving" jar="driving.jar">
+	</Device>
+</DeviceList>
