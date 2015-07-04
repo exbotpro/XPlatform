@@ -30,8 +30,6 @@ public class RunningState extends AppState{
 			throw new RunningException("");
 		}
 		operator.run();
-		//new Thread(operator).start();
-		
 	}
 
 	@Override

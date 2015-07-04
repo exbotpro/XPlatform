@@ -17,9 +17,7 @@ public abstract class AbstractCOperator extends AbstractOperator{
 		return this.convertGeneratedData(generatedData);
 	}
 	
-	
 	private native double[] c_operate(double[][] recievedData);
-	
 	
 	private void loadDLL(String path) {
 		try{

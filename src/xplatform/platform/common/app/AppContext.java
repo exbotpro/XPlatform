@@ -11,7 +11,7 @@ import xplatform.platform.common.app.state.TerminateState;
 import xplatform.platform.common.app.state.UnpluggedState;
 import xplatform.platform.common.app.state.exception.InitException;
 import xplatform.platform.common.app.state.exception.RunningException;
-import xplatform.platform.devices.ThreadPoolForAppContext;
+import xplatform.platform.devices.AppContextPool;
 
 public class AppContext extends Thread{
 	
@@ -50,12 +50,12 @@ public class AppContext extends Thread{
 	}
 	
 	public static AppContext getContext(String id, String type, AbstractOperator op){
-		AppContext context = ThreadPoolForAppContext.getLookupTable().getThread(id);
+		AppContext context = AppContextPool.getLookupTable().getThread(id);
 		
 		if(context==null)
 		{
 			AppContext newContext = new AppContext(id, type, op);
-			ThreadPoolForAppContext.getLookupTable().putThread(id, newContext); 
+			AppContextPool.getLookupTable().putThread(id, newContext); 
 			return newContext;
 		}
 		
@@ -63,12 +63,12 @@ public class AppContext extends Thread{
 	}
 	
 	public static AppContext getContext(String id, String type){
-		AppContext context = ThreadPoolForAppContext.getLookupTable().getThread(id);
+		AppContext context = AppContextPool.getLookupTable().getThread(id);
 		
 		if(context==null)
 		{
 			AppContext newContext = new AppContext(id, type);
-			ThreadPoolForAppContext.getLookupTable().putThread(id, newContext); 
+			AppContextPool.getLookupTable().putThread(id, newContext); 
 			return newContext;
 		}
 		

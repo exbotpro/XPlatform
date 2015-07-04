@@ -7,7 +7,7 @@ import xplatform.platform.common.app.operator.AbstractOperator;
 import xplatform.platform.common.app.state.exception.InitException;
 import xplatform.platform.common.app.state.exception.RunningException;
 import xplatform.platform.devices.OperatorPool;
-import xplatform.platform.devices.ThreadPoolForAppContext;
+import xplatform.platform.devices.AppContextPool;
 
 public class UnpluggedState extends AppState{
 
@@ -41,19 +41,19 @@ public class UnpluggedState extends AppState{
 
 		this.readyAll();
 		OperatorPool.getLookupTable().getOperator(id).stop();
-		ThreadPoolForAppContext.getLookupTable().getThread(id).appStop();
-		ThreadPoolForAppContext.getLookupTable().removeThread(id);
+		AppContextPool.getLookupTable().getThread(id).appStop();
+		AppContextPool.getLookupTable().removeThread(id);
 		OperatorPool.getLookupTable().removeOperator(id);
 		
 	}
 
 	private synchronized void readyAll(){
-		ArrayList<AppContext> contexts = ThreadPoolForAppContext.getLookupTable().getAll();
+		ArrayList<AppContext> contexts = AppContextPool.getLookupTable().getAll();
 		for(AppContext context: contexts){
 			AbstractOperator op = OperatorPool.getLookupTable().getOperator(context.getAppId());
 			op.stop();
 			op.removeDataBufferOf(this.id);			
-			ThreadPoolForAppContext.getLookupTable().getThread(context.getAppId()).appStop();
+			AppContextPool.getLookupTable().getThread(context.getAppId()).appStop();
 			context.changeToReadyState();
 			context.appStart();
 		}

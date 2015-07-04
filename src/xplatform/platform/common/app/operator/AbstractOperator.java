@@ -3,6 +3,7 @@ package xplatform.platform.common.app.operator;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
+import xplatform.platform.adaptation.ThreadCoordinator;
 import xplatform.platform.common.data.DataBuffer;
 import xplatform.platform.common.data.DataContainer;
 import xplatform.platform.common.data.Publisher;
@@ -12,7 +13,10 @@ public abstract class AbstractOperator {
 	
 	protected String ID;
 	protected String type;
-	protected int interval;
+	
+	protected long interval;
+	protected long p_time;
+	
 	protected boolean running = true;
 	protected ArrayList<String> subscribeFrom = new ArrayList<String>();
 	private Publisher publisher;
@@ -26,9 +30,25 @@ public abstract class AbstractOperator {
 		this.ID = id;
 		this.type = type;
 		this.interval = interval;
+		this.p_time = 0;
 		this.publisher = new Publisher(id);
 	}
 	
+	
+	public long getInterval() {
+		return interval;
+	}
+
+	/**
+	 * this method is used for synchronizing apps.
+	 * 
+	 * @param interval
+	 */
+	public void setInterval(long interval) {
+		this.interval = interval;
+	}
+
+
 	/**
 	 * This method is for Controller and Actuator Application
 	 * if you want to subscribe from publishers, 
@@ -72,9 +92,22 @@ public abstract class AbstractOperator {
 	public void run() {
 		while(running){
 			try {
-				Thread.sleep(this.interval);
+				
+				this.interval = ThreadCoordinator.getThreadCoordinator().getInterval(this.ID);
+				long delay = this.interval-this.p_time;
+				if(delay>0)Thread.sleep(delay);
+				long start = System.currentTimeMillis();
+				ThreadCoordinator.getThreadCoordinator().setInitTime(this.ID, start);
+				
 				DataContainer dc = this.operate(this.getRecievedData());
+				long end = System.currentTimeMillis();
+				
+				ThreadCoordinator.getThreadCoordinator().setEndTime(this.ID, end);
+				ThreadCoordinator.getThreadCoordinator().setInterval(this.ID);
+				
 				this.publisher.announce(dc);
+				long x_cur = end - start;
+				this.p_time = x_cur;
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();

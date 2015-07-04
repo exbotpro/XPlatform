@@ -18,6 +18,10 @@ public class Publisher {
 		this.subscribers.add(op);
 	}
 	
+	public final ArrayList<AbstractOperator> getSubscribers() {
+		return subscribers;
+	}
+
 	public void announce(DataContainer data){
 		for(AbstractOperator sb: subscribers){			
 			sb.getDataRepo().get(masterDeviceID).setData(data);

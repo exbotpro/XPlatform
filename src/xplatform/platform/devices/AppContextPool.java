@@ -5,17 +5,21 @@ import java.util.Hashtable;
 
 import xplatform.platform.common.app.AppContext;
 
-public class ThreadPoolForAppContext {
-	private volatile static ThreadPoolForAppContext uniqueTable;
+public class AppContextPool {
+	private volatile static AppContextPool uniqueTable;
 	private Hashtable<String, AppContext> lookup = new Hashtable<String, AppContext>();
 	
-	public static ThreadPoolForAppContext getLookupTable(){
+	private AppContextPool(){
+		
+	}
+	
+	public static AppContextPool getLookupTable(){
 		if(uniqueTable==null)
 		{
 			synchronized (DeviceLookupTable.class){
 				if(uniqueTable==null)
 				{
-					uniqueTable = new ThreadPoolForAppContext();
+					uniqueTable = new AppContextPool();
 				}
 			}
 		}
