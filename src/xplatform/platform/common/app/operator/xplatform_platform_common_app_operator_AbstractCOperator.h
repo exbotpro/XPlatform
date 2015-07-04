@@ -15,6 +15,14 @@ extern "C" {
 JNIEXPORT jdoubleArray JNICALL Java_xplatform_platform_common_app_operator_AbstractCOperator_c_1operate
   (JNIEnv *, jobject, jobjectArray);
 
+/*
+ * Class:     xplatform_platform_common_app_operator_AbstractCOperator
+ * Method:    c_init
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_xplatform_platform_common_app_operator_AbstractCOperator_c_1init
+  (JNIEnv *, jobject);
+
 #ifdef __cplusplus
 }
 #endif

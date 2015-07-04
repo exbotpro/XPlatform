@@ -10,7 +10,11 @@ public abstract class AbstractCOperator extends AbstractOperator{
 		super(id, type, interval);
 		this.loadDLL(this.getPath());
 	}
-
+	
+	protected void init(){
+		this.c_init();
+	}
+	
 	@Override
 	protected DataContainer operate(ArrayList<DataContainer> recievedData) {
 		double[] generatedData = this.c_operate(this.convertRecievedData(recievedData));
@@ -18,6 +22,7 @@ public abstract class AbstractCOperator extends AbstractOperator{
 	}
 	
 	private native double[] c_operate(double[][] recievedData);
+	private native void c_init();
 	
 	private void loadDLL(String path) {
 		try{

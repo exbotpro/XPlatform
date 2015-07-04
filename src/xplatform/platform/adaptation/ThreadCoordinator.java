@@ -63,8 +63,8 @@ public class ThreadCoordinator {
 	public void setInterval(String id){
 		ArrayList<AbstractOperator> operatorList = OperatorPool.getLookupTable().getOperator(id).getPublisher().getSubscribers();
 		for(AbstractOperator operator:operatorList){
-			long diff = this.maxTimeTable.get(id) - this.avgTimeTable.get(id).intValue() + 10;
-			intervalTable.put(operator.getID(), (long)(this.avgTimeTable.get(id).intValue() + diff));
+//			long diff = this.maxTimeTable.get(id) - this.avgTimeTable.get(id).intValue() + 10;
+			intervalTable.put(operator.getID(), (long)(this.avgTimeTable.get(id).intValue()));
 		}
 	}
 
@@ -92,7 +92,5 @@ public class ThreadCoordinator {
 			numberOfData.put(id, k+1);
 			avgTimeTable.put(id, (double)x_cur);
 		}
-		
-		
 	}
 }

@@ -90,10 +90,14 @@ public abstract class AbstractOperator {
 	 * 2) announcing the produced data to the its subscribers using publisher are carried out.
 	 */
 	public void run() {
+		
+		this.init();
+		
 		while(running){
 			try {
 				
 				this.interval = ThreadCoordinator.getThreadCoordinator().getInterval(this.ID);
+				
 				long delay = this.interval-this.p_time;
 				if(delay>0)Thread.sleep(delay);
 				long start = System.currentTimeMillis();
@@ -153,5 +157,6 @@ public abstract class AbstractOperator {
 	 * implement this method for carrying out the functionality of the applications you are developing.
 	 */
 	protected abstract DataContainer operate(ArrayList<DataContainer> recievedData);
+	protected abstract void init();
 
 }
