@@ -41,7 +41,7 @@ public class DeviceLookupTable {
 	
 	public AbstractOperator getDeviceBy(String id){
 		DeviceDescriptor desc = xmlHanlder.getOperatorDescriptorBy(nodeName, "id", id);
-		AbstractOperator op = DeviceLoader.monitor("dapp" ,id, desc);
+		AbstractOperator op = DeviceLoader.monitor(Path.repository ,id, desc);
 		return op;
 	}
 	

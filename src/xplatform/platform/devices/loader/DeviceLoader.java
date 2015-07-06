@@ -32,7 +32,7 @@ public class DeviceLoader {
 		if(desc!= null){
 			try {
 				URL url = jar.toURI().toURL();
-				ClassLoader classLoader = ClassLoader.getClassLoader();
+				JarClassLoader classLoader = JarClassLoader.getClassLoader();
 				classLoader.addJAR(url);
 				Class<?> c = Class.forName (desc.getClasspath(), true, classLoader);
 				Constructor<?> con = c.getDeclaredConstructors()[0];

@@ -114,7 +114,6 @@ public class AppContext extends Thread{
 				this.publisherList = this.state.getPublisherList();
 				this.readyState.setOperator(op);
 				this.state = this.readyState;
-				
 			}catch(InitException e){
 				
 			}
@@ -128,7 +127,6 @@ public class AppContext extends Thread{
 		}else if(this.state instanceof RunningState){
 			try
 			{
-				
 				op.start();
 				this.state.runApp(op);
 			}catch(RunningException e){

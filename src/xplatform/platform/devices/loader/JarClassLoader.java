@@ -5,21 +5,21 @@ import java.net.URLClassLoader;
 
 import xplatform.platform.devices.DeviceLookupTable;
 
-public class ClassLoader extends URLClassLoader{
+public class JarClassLoader extends URLClassLoader{
 
-
-	private volatile static ClassLoader classLoader;
-	private ClassLoader(URL[] arg0) {
+	private volatile static JarClassLoader classLoader;
+	
+	private JarClassLoader(URL[] arg0) {
 		super(arg0);
 	}
 	
-	public static ClassLoader getClassLoader(){
+	public static JarClassLoader getClassLoader(){
 		if(classLoader==null)
 		{
 			synchronized (DeviceLookupTable.class){
 				if(classLoader==null)
 				{
-					classLoader = new ClassLoader(new URL[]{});
+					classLoader = new JarClassLoader(new URL[]{});
 				}
 			}
 		}
@@ -30,5 +30,5 @@ public class ClassLoader extends URLClassLoader{
 	public void addJAR(URL url){
 		super.addURL(url);
 	}
-
+	
 }

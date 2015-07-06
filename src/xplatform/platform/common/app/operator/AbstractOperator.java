@@ -11,9 +11,10 @@ import xplatform.platform.common.data.Publisher;
 
 public abstract class AbstractOperator {
 	
+	protected static String path;
 	protected String ID;
 	protected String type;
-	
+
 	protected long interval;
 	protected long p_time;
 	
@@ -26,19 +27,17 @@ public abstract class AbstractOperator {
 	 * This constructor is to set the ID of your application 
 	 * @param id: USB-ID (e.g., productID: vendorID)
 	 */
-	public AbstractOperator(String id, String type, int interval) {
+	public AbstractOperator(String id, String type) {
 		this.ID = id;
 		this.type = type;
-		this.interval = interval;
 		this.p_time = 0;
 		this.publisher = new Publisher(id);
 	}
 	
-	
 	public long getInterval() {
 		return interval;
 	}
-
+	
 	/**
 	 * this method is used for synchronizing apps.
 	 * 
@@ -95,8 +94,8 @@ public abstract class AbstractOperator {
 		
 		while(running){
 			try {
-				
-				this.interval = ThreadCoordinator.getThreadCoordinator().getInterval(this.ID);
+				this.interval = ThreadCoordinator.getThreadCoordinator().getInterval(this.subscribeFrom);
+				long myProcessingTime = ThreadCoordinator.getThreadCoordinator().getMyInterval(ID);
 				
 				long delay = this.interval-this.p_time;
 				if(delay>0)Thread.sleep(delay);
@@ -112,6 +111,8 @@ public abstract class AbstractOperator {
 				this.publisher.announce(dc);
 				long x_cur = end - start;
 				this.p_time = x_cur;
+				long cur_delay = myProcessingTime - x_cur;
+				if(cur_delay>0) Thread.sleep(cur_delay);
 				
 			} catch (InterruptedException e) {
 				e.printStackTrace();

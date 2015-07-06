@@ -50,9 +50,27 @@ public class ThreadCoordinator {
 		this.addTimeTo(id, x_cur);
 	}
 	
-	public long getInterval(String id){
+	public long getInterval(ArrayList<String> depedentApps){
 		long interval = 0;
-		if(intervalTable.containsKey(id)) interval = intervalTable.get(id);
+		
+		for(String appId: depedentApps){
+			if(intervalTable.containsKey(appId) && intervalTable.get(appId)>interval) {
+				interval = intervalTable.get(appId);
+			}
+		}
+		
+		return interval;
+	}
+	
+	public long getMyInterval(String id){
+		long interval = 0;
+		
+		
+		if(intervalTable.containsKey(id)) {
+				interval = intervalTable.get(id);
+		}
+		
+		
 		return interval;
 	}
 	
@@ -61,11 +79,11 @@ public class ThreadCoordinator {
 	}
 	
 	public void setInterval(String id){
-		ArrayList<AbstractOperator> operatorList = OperatorPool.getLookupTable().getOperator(id).getPublisher().getSubscribers();
-		for(AbstractOperator operator:operatorList){
-//			long diff = this.maxTimeTable.get(id) - this.avgTimeTable.get(id).intValue() + 10;
-			intervalTable.put(operator.getID(), (long)(this.avgTimeTable.get(id).intValue()));
-		}
+		intervalTable.put(id, (long)(this.avgTimeTable.get(id).intValue()));
+	}
+
+	public void initInterval(String id){
+		intervalTable.remove(id);		
 	}
 
 	public void addTimeTo(String id, long x_cur){
