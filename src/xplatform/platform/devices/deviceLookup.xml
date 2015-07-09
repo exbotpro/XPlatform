@@ -3,7 +3,7 @@
 	<Device id="046d:082d" classpath="dapp.camera.Camera" type="Camera"
 		jar="">
 	</Device>
-	<Device id="0781:557d" classpath="xplatform.example.driving.Driving"
+	<Device id="b1ac:f000" classpath="dapp.wheel.Wheel"
 		type="Wheel" jar="">
 	</Device>
 	<Device id="driving" classpath="dapp.driving.Driving"

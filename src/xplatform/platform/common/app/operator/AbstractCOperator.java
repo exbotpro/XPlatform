@@ -34,7 +34,6 @@ public abstract class AbstractCOperator extends AbstractOperator{
 		}
 	}
 	
-	
 	protected abstract String getDll();
 	protected abstract double[][] convertRecievedData(ArrayList<DataContainer> recievedData);
 	protected abstract DataContainer convertGeneratedData(double[] generatedData);

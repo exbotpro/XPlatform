@@ -32,6 +32,7 @@ public abstract class AbstractOperator {
 		this.type = type;
 		this.p_time = 0;
 		this.publisher = new Publisher(id);
+		this.setSubscribeFrom(this.getDependedDeviceID());
 	}
 	
 	public long getInterval() {
@@ -158,6 +159,7 @@ public abstract class AbstractOperator {
 	 * implement this method for carrying out the functionality of the applications you are developing.
 	 */
 	protected abstract DataContainer operate(ArrayList<DataContainer> recievedData);
+	protected abstract ArrayList<String> getDependedDeviceID();
 	protected abstract void init();
 
 }
