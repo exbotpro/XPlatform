@@ -1,7 +1,5 @@
 package xplatform.platform.common.app.state;
 
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import xplatform.platform.adaptation.ThreadCoordinator;
@@ -11,7 +9,6 @@ import xplatform.platform.common.app.state.exception.InitException;
 import xplatform.platform.common.app.state.exception.RunningException;
 import xplatform.platform.devices.AppContextPool;
 import xplatform.platform.devices.OperatorPool;
-import xplatform.platform.devices.loader.JarClassLoader;
 
 public class UnpluggedState extends AppState{
 
@@ -58,7 +55,7 @@ public class UnpluggedState extends AppState{
 		for(AppContext context: contexts){
 			AbstractOperator op = OperatorPool.getLookupTable().getOperator(context.getAppId());
 			op.stop();
-			op.removeDataBufferOf(this.id);			
+			op.removeDataBufferOf(this.id);
 			AppContextPool.getLookupTable().getThread(context.getAppId()).appStop();
 			context.changeToReadyState();
 			context.appStart();

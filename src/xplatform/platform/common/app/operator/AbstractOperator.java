@@ -7,9 +7,10 @@ import xplatform.platform.adaptation.ThreadCoordinator;
 import xplatform.platform.common.data.DataBuffer;
 import xplatform.platform.common.data.DataContainer;
 import xplatform.platform.common.data.Publisher;
+import xplatform.util.socket.TCPComm;
 
 
-public abstract class AbstractOperator {
+public abstract class AbstractOperator extends TCPComm{
 	
 	protected static String path;
 	protected String ID;
@@ -109,7 +110,9 @@ public abstract class AbstractOperator {
 				ThreadCoordinator.getThreadCoordinator().setEndTime(this.ID, end);
 				ThreadCoordinator.getThreadCoordinator().setInterval(this.ID);
 				
-				this.publisher.announce(dc);
+				if(dc!=null)
+					this.publisher.announce(dc);
+				
 				long x_cur = end - start;
 				this.p_time = x_cur;
 				long cur_delay = myProcessingTime - x_cur;

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <DeviceList>
-	<Device id="046d:082d" classpath="dapp.camera.Camera" type="Camera"
+	<Device id="046d:082d" classpath="dapp.camera.RedTracker" type="RedTracker"
 		jar="">
 	</Device>
-	<Device id="b1ac:f000" classpath="dapp.wheel.Wheel"
+	<Device id="03eb:2404" classpath="dapp.wheel.Wheel"
 		type="Wheel" jar="">
 	</Device>
 	<Device id="driving" classpath="dapp.driving.Driving"
