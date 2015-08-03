@@ -85,9 +85,6 @@ public class XMLHandler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-		
-
 	}
 
 
@@ -107,10 +104,65 @@ public class XMLHandler {
 		return new DeviceDescriptor(attValue, name, classpath, jarpath, type, jarName);
 	}
 	
+	public ArrayList<DeviceDescriptor> getOperatorDescriptors(String nodeName, ArrayList<String> childsNodeValues){
+		
+		NodeList list = doc.getElementsByTagName(nodeName);
+		if(list==null){
+			return null;
+		}
+		
+		ArrayList<Node> controllerCandidates = new ArrayList<Node>();
+		ArrayList<Node> controllers = new ArrayList<Node>();
+		
+		for(int i = 0 ; i < list.getLength() ; i++)
+		{
+			if(!((Element)list.item(i)).getAttribute("id").equals(""))
+				controllerCandidates.add(list.item(i));
+		}
+		
+		for(Node node: controllerCandidates){
+			ArrayList<String> nodeValues = this.getChildNodeValue(node);
+			boolean flg = true;
+			if(nodeValues.size()==childsNodeValues.size()){
+				for(int i = 0 ; i < childsNodeValues.size() ; i++){
+					if(!nodeValues.contains(childsNodeValues.get(i))){
+						flg = false;
+						break;
+					}
+				}
+				
+				if(flg) controllers.add(node);
+			}
+		}
+		
+		ArrayList<DeviceDescriptor> descriptors = this.getDescriptors(controllers);
+		return descriptors;
+	}
+	
+	
+	private ArrayList<String> getChildNodeValue(Node node){
+		ArrayList<String> childs = new ArrayList<String>();
+		
+		NodeList list = node.getChildNodes();
+		for(int i = 0 ; i<list.getLength() ; i++){
+			Node child = list.item(i);
+			
+			String value = child.getTextContent();
+			if(value!=null &&!value.trim().equals("")){
+				childs.add(value); 
+			}
+		}
+		
+		return childs;
+	}
+	
 	
 	public ArrayList<DeviceDescriptor> getOperatorControllerDescriptors(){
-		
 		ArrayList<Node> nodes = this.getNodesByAttribute("Device", "jar");
+		return getDescriptors(nodes);
+	}
+	
+	private ArrayList<DeviceDescriptor> getDescriptors(ArrayList<Node> nodes) {
 		ArrayList<DeviceDescriptor> descriptors = new ArrayList<DeviceDescriptor>();
 		
 		for(Node node: nodes){

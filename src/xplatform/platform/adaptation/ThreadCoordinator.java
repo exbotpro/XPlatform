@@ -5,13 +5,9 @@ import java.util.Hashtable;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
-import xplatform.platform.common.app.operator.AbstractOperator;
-import xplatform.platform.devices.OperatorPool;
-
 
 public class ThreadCoordinator {
 	private int n = 10;
-	private int diff = 100;
 	private Hashtable<String, Long> initTime = new Hashtable<String, Long>();
 	private Hashtable<String, Long> endTime = new Hashtable<String, Long>();
 	

@@ -28,10 +28,14 @@ public abstract class AbstractCOperator extends AbstractOperator{
 	private void loadDLL(String dll) {
 		
 		try{
-			System.load(Path.repository + dll); 
+			System.load(Path.repository + dll);
 		}catch(UnsatisfiedLinkError e){
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	public void deinit(){
+		
 	}
 	
 	protected abstract String getDll();

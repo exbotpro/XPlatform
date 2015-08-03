@@ -93,7 +93,6 @@ public abstract class AbstractOperator extends TCPComm{
 	public void run() {
 		
 		this.init();
-		
 		while(running){
 			try {
 				this.interval = ThreadCoordinator.getThreadCoordinator().getInterval(this.subscribeFrom);
@@ -164,5 +163,6 @@ public abstract class AbstractOperator extends TCPComm{
 	protected abstract DataContainer operate(ArrayList<DataContainer> recievedData);
 	protected abstract ArrayList<String> getDependedDeviceID();
 	protected abstract void init();
+	public abstract void deinit();
 
 }

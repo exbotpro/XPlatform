@@ -18,7 +18,7 @@ public class DeviceLookupTable {
 	private final String nodeName = "Device";
 	
 	private DeviceLookupTable(){
-		xmlHanlder = new XMLHandler(Path.lookupTablePath);
+		xmlHanlder = new XMLHandler(Path.devicelookupTablePath);
 	}
 	
 	public static DeviceLookupTable getLookupTable(){

@@ -3,9 +3,11 @@ package xplatform.platform.common.app.operator;
 import java.util.ArrayList;
 
 import xplatform.platform.common.data.DataContainer;
+import xplatform.util.socket.Executer;
 
 public abstract class AbstractTCPOperator extends AbstractOperator
 {
+	protected Executer exe;
 	private String host; 
 	private int port;
 	
@@ -13,21 +15,39 @@ public abstract class AbstractTCPOperator extends AbstractOperator
 		super(id, type);
 		this.host = host;
 		this.port = port;
-//		this.init();
 	}
-
+	
+	protected void init(){
+		if(exe==null){
+			exe = new Executer(getExecutableFileName());
+			new Thread(exe).start();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	@Override
 	protected DataContainer operate(ArrayList<DataContainer> recievedData) {
 		super.init(host, port);
 		
 		if(!recievedData.isEmpty()){
-			super.sendSomeMessages(this.convertRecievedData(recievedData));
+			String data = this.convertRecievedData(recievedData);
+			System.out.println(data);
+			super.sendSomeMessages(data);
 		}
 		
 		return null;
 	}
 	
 	protected abstract String convertRecievedData(ArrayList<DataContainer> recievedData);
-	//protected abstract DataContainer convertGeneratedData(String generatedData);
-
+	protected abstract String getExecutableFileName();
+	
+	public void deinit(){
+		this.exe.deinit();
+		this.exe = null;
+	}
 }

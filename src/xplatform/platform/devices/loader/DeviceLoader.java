@@ -29,16 +29,19 @@ public class DeviceLoader {
 	
 	public static AbstractOperator load(File jar, String id, DeviceDescriptor desc){
 		AbstractOperator op = null;
+		
 		if(desc!= null){
 			try {
 				URL url = jar.toURI().toURL();
-				JarClassLoader classLoader = JarClassLoader.getClassLoader();
-				classLoader.addJAR(url);
-				Class<?> c = Class.forName (desc.getClasspath(), true, classLoader);
+				JarLoaderFactory factory = JarLoaderFactory.getClassLoaderFactory();
+				factory.getClassLoader(id);
+				factory.addJAR(id, url);
+				
+				Class<?> c = Class.forName (desc.getClasspath(), true, factory.getClassLoader(id));
 				Constructor<?> con = c.getDeclaredConstructors()[0];
 				op = (AbstractOperator) con.newInstance(new Object[] {new String(id), new String(desc.getType())});
 				OperatorPool.getLookupTable().putOperator(id, op);
-				
+
 			} catch (Exception e) {
 				return null;
 			}
