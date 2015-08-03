@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContollerList>
+	<!-- Controller id="driving" classpath="dapp.driving.Driving" type="Driving" jar="Controller.jar">
+	    <RequiredDevice>046d:082d</RequiredDevice>
+	    <RequiredDevice>03eb:2404</RequiredDevice>
+	</Controller>
+	
+	<Controller id="driving2" classpath="dapp.driving.Driving2" type="Driving2" jar="Controller.jar">
+	    <RequiredDevice>046d:082d</RequiredDevice>
+	    <RequiredDevice>03eb:2404</RequiredDevice>
+	</Controller-->
+
+	
+		
+	<Controller id="driving" classpath="dapp.driving.Driving"  type="Driving" jar="controller.jar">
+	    <RequiredDevice>046d:082d</RequiredDevice>
+	    <RequiredDevice>03eb:2404</RequiredDevice>
+	</Controller>
+	
+	<Controller id="moving_security" classpath="dapp.rotator.Moving_Security"  type="Moving_Security" jar="Moving_Security.jar">
+	    <RequiredDevice>046d:082d</RequiredDevice>
+	    <RequiredDevice>06c2:003a</RequiredDevice>
+	</Controller>
+</ContollerList>
